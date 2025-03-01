@@ -1,12 +1,13 @@
 clear ; clc;
 SNR = 0:0.5:12; % Signal-to-noise ratio (dB)
+L_SNR=length(SNR);
 maxF = 1e5; 
 m = 3;
 k = (2^m)-m-1;  % Message length
 n = (2^m)-1;    % Codeword length
 Len = k * 1000; % Number of data bits per frame
-ber1 = zeros(1, M); 
-ber2 = zeros(1, M); 
+ber1 = zeros(1, L_SNR); 
+ber2 = zeros(1, L_SNR); 
 
 for ii = 1:length(SNR)
     num1 = 0; % Number of errors (coded)
