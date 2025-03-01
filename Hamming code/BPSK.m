@@ -1,16 +1,14 @@
 clear ; clc;
 SNR = 0:0.5:12; % Signal-to-noise ratio (dB)
-maxF = 1e4; 
+maxF = 1e5; 
 m = 3;
 k = (2^m)-m-1;  % Message length
 n = (2^m)-1;    % Codeword length
-[h, g] = hammgen(m); 
-M = length(SNR);
 Len = k * 1000; % Number of data bits per frame
 ber1 = zeros(1, M); 
 ber2 = zeros(1, M); 
 
-for ii = 1:M
+for ii = 1:length(SNR)
     num1 = 0; % Number of errors (coded)
     num2 = 0; % Number of errors (uncoded)
     
@@ -56,7 +54,7 @@ for ii = 1:M
     ber2(ii) = num2 / jj / Len;
 end
 
-figure(1); 
+figure; 
 semilogy(SNR, ber1, 'r', 'LineWidth', 2);
 hold on;
 semilogy(SNR, ber2, 'g', 'LineWidth', 2);
