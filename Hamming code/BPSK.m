@@ -1,5 +1,5 @@
 clear ; clc;
-SNR = 0:0.5:12; % Signal-to-noise ratio (dB)
+SNR = 0:0.5:16; % Signal-to-noise ratio (dB)
 L_SNR=length(SNR);
 maxF = 1e5; 
 m = 3;
@@ -97,46 +97,44 @@ for ii = 1:length(SNR)
     pp = 1;
     
     % Uncoded Transmission
-    while (jj < maxF && num2 < 1000)
+    while (jj < maxF && num1 < 1000)
         data = randi([0 1], Len, 1);
-        t2 = 2 * data - 1; % BPSK modulation
+        t1 = 2 * data - 1; % BPSK modulation
         
         % Pass through Rayleigh Channel
-        h_ray = rayleighChan(ones(length(t2), 1));
+        h_ray = rayleighChan(ones(length(t1), 1));
         hh=abs(h_ray);
-        fadedSignal = hh .* t2;
+        fadedSignal = hh .* t1;
         
         % Add AWGN
-        r2 = awgn(fadedSignal, SNR(ii)+3);
+        r1 = awgn(fadedSignal, SNR(ii)+3);
         
         % Demodulation
-        r2=r2./hh;
-        bb2 = r2 > 0;
-        num2 = num2 + biterr(bb2, data);
+        bb1 = r1 > 0;
+        num1 = num1 + biterr(bb1, data);
         jj = jj + 1;
     end
     
     % Coded Transmission
-    while (pp < maxF && num1 < 1000)
+    while (pp < maxF && num2 < 1000)
         data = randi([0 1], Len, 1);
         encData = encode(data, n, k, 'hamming/binary')'; % Encoding
         
-        t1 = 2 * encData - 1; % BPSK modulation
+        t2 = 2 * encData - 1; % BPSK modulation
         
         % Pass through Rayleigh Channel
-        h_ray = rayleighChan(ones(length(t1), 1)); 
+        h_ray = rayleighChan(ones(length(t2), 1)); 
         hh=abs(h_ray)';
-        fadedSignal = hh .* t1;
+        fadedSignal = hh .* t2;
         
         % Add AWGN
-        r1 = awgn(fadedSignal, SNR(ii) + 10*log10(k/n)+3);
+        r2 = awgn(fadedSignal, SNR(ii) + 10*log10(k/n)+3);
         
         % Demodulation
-        r1=r1./hh;
-        bb1 = r1 > 0;
-        decData = decode(bb1, n, k, 'hamming/binary')'; % Decoding
+        bb2 = r2 > 0;
+        decData = decode(bb2, n, k, 'hamming/binary')'; % Decoding
         
-        num1 = num1 + biterr(decData, data);
+        num2 = num2 + biterr(decData, data);
         pp = pp + 1;
     end
     
@@ -153,4 +151,4 @@ grid on;
 xlabel('SNR (dB)');
 ylabel('BER');
 title('BER Performance: Coded vs Uncoded BPSK in Rayleigh Channel');
-legend('Coded', 'Uncoded');
+legend('Uncoded','Coded');
