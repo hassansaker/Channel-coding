@@ -37,7 +37,7 @@ for ii = 1:L_SNR
         
         %-----------------Transmitter---------------------
         data = randi([0 1], 1, Len);
-        encData = encode(data', n, k, 'hamming/binary')';
+        encData = encode(data', n, k, 'hamming/binary');
         t2 = 2 * encData - 1; % BPSK modulation
         
         %----------------Channel---------------------
@@ -45,8 +45,8 @@ for ii = 1:L_SNR
         
         %-----------------Receiver----------------------
         bb2 = r2 > 0; % Demodulation
-        decData = decode(bb2, n, k, 'hamming/binary')';
-        num2 = num2 + biterr(decData', data);
+        decData = decode(bb2, n, k, 'hamming/binary');
+        num2 = num2 + biterr(decData, data);
         pp = pp + 1;
         
     end
@@ -56,9 +56,9 @@ for ii = 1:L_SNR
 end
 
 figure; 
-semilogy(SNR, ber1, 'r-s', 'LineWidth', 2);
+semilogy(SNR, ber1, 'r-*', 'LineWidth', 2);
 hold on;
-semilogy(SNR, ber2, 'g-s', 'LineWidth', 2);
+semilogy(SNR, ber2, 'g-h', 'LineWidth', 2);
 grid on;
 xlabel('SNR (dB)');
 ylabel('BER');
