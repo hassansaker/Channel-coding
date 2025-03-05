@@ -51,8 +51,8 @@ for ii = 1:L_SNR
         
     end
     
-    ber1(ii) = num1 / pp / Len;
-    ber2(ii) = num2 / jj / Len;
+    ber1(ii) = num1 / jj / Len;
+    ber2(ii) = num2 / pp / Len;
 end
 
 figure; 
