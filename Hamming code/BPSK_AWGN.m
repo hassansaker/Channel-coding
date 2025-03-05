@@ -37,7 +37,7 @@ for ii = 1:L_SNR
         
         %-----------------Transmitter---------------------
         data = randi([0 1], 1, Len);
-        encData = encode(data', n, k, 'hamming/binary');
+        encData = encode(data, n, k, 'hamming/binary');
         t2 = 2 * encData - 1; % BPSK modulation
         
         %----------------Channel---------------------
