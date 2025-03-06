@@ -4,7 +4,7 @@ clear; clc;
 SNR = 0:0.5:16; % Signal-to-noise ratio (dB)
 L_SNR = length(SNR);
 maxF = 1e5; 
-m = 5;
+m = 3;
 k = (2^m) - m - 1;  % Message length
 n = (2^m) - 1;      % Codeword length
 Len = k * 1000;     % Number of data bits per frame
@@ -12,7 +12,7 @@ ber1 = zeros(1, L_SNR);
 ber2 = zeros(1, L_SNR); 
 
 % Define Rayleigh Channel
-fs = 10*Len; % Sampling rate (adjustable)
+fs = 8*Len; % Sampling rate (adjustable)
 pathDelays = [0 200 800 1200 2300 3700] * 1e-9; % sec
 avgPathGains = [0 -3 -4.9 -8 -7.8 -23.9]; % dB
 fD = 50; % Doppler shift in Hz
@@ -51,13 +51,13 @@ for ii = 1:length(SNR)
     % Coded Transmission
     while (pp < maxF && num2 < 1000)
         data = randi([0 1], Len, 1);
-        encData = encode(data, n, k, 'hamming/binary')'; % Encoding
+        encData = encode(data, n, k, 'hamming/binary'); % Encoding
         
         t2 = 2 * encData - 1; % BPSK modulation
         
         % Pass through Rayleigh Channel
         h_ray = rayleighChan(ones(length(t2), 1)); 
-        hh=abs(h_ray)';
+        hh=abs(h_ray);
         fadedSignal = hh .* t2;
         
         % Add AWGN
@@ -76,10 +76,10 @@ for ii = 1:length(SNR)
 end
 
 % Plot Results
-figure(1); 
-semilogy(SNR, ber1, 'r', 'LineWidth', 2);
+figure; 
+semilogy(SNR, ber1, 'r-*', 'LineWidth', 1.5,'MarkerSize',8);
 hold on;
-semilogy(SNR, ber2, 'g', 'LineWidth', 2);
+semilogy(SNR, ber2, 'g-h', 'LineWidth', 1.5,'MarkerSize',8);
 grid on;
 xlabel('SNR (dB)');
 ylabel('BER');
