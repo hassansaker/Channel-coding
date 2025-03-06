@@ -1,34 +1,40 @@
 # BPSK Modulation with Hamming Code
-This repository contains a MATLAB script that compares the performance of BPSK modulation with and without Hamming coding in terms of Bit Error Rate (BER) over a range of Signal-to-Noise Ratios (SNR).
+
+This repository contains a MATLAB script that compares the performance of **BPSK modulation** with and without **Hamming coding** in terms of **Bit Error Rate (BER)** over a range of **Signal-to-Noise Ratios (SNR)**. The simulation includes both **AWGN** and **Rayleigh fading channels**, with and without **interleaving**.
+
+---
 
 ## Overview
-The script simulates both coded and uncoded BPSK transmission over an AWGN channel. It uses Hamming codes for error correction in the coded scenario. The BER performance is plotted against SNR for both cases.
+
+The script simulates **BPSK transmission** in the following scenarios:
+1. **Uncoded BPSK**: Transmission without error correction.
+2. **Coded BPSK with Hamming Code**: Transmission with Hamming coding for error correction.
+3. **Coded BPSK with Hamming Code and Interleaving**: Transmission with Hamming coding and interleaving to mitigate burst errors in fading channels.
+
+The BER performance is plotted against SNR for all scenarios, allowing for a comparison of the effectiveness of coding and interleaving in different channel conditions.
+
+---
 
 ## Key Features
-- **BPSK Modulation**: Both coded and uncoded BPSK modulation schemes are implemented.
-- **Hamming Coding**: Hamming codes are used for error correction in the coded scenario.
-- **AWGN Channel**: Simulates transmission over an Additive White Gaussian Noise (AWGN) channel.
-- **BER Performance**: Plots BER against SNR for both coded and uncoded scenarios.
+
+- **BPSK Modulation**: Implements Binary Phase Shift Keying (BPSK) for both coded and uncoded transmission.
+- **Hamming Coding**: Uses Hamming codes for error correction in the coded scenarios.
+- **Random Interleaving**: Implements a random interleaver to mitigate burst errors in fading channels.
+- **Channel Models**:
+  - **AWGN Channel**: Simulates transmission over an Additive White Gaussian Noise (AWGN) channel.
+  - **Rayleigh Fading Channel**: Simulates transmission over a Rayleigh fading channel with multipath propagation and Doppler effects.
+- **BER Performance**: Plots BER against SNR for uncoded, coded, and coded-with-interleaving scenarios.
+
+---
 
 ## Requirements
-- MATLAB with Communications Toolbox (for `awgn`, `encode`, and `decode` functions).
+
+- **MATLAB**: The script requires MATLAB with the **Communications Toolbox** (for functions like `awgn`, `encode`, `decode`, `comm.RayleighChannel`, `intrlv`, and `deintrlv`).
+
+---
 
 ## Usage
-1. Clone the repository.
-2. Open MATLAB and navigate to the cloned repository.
-3. Run the provided MATLAB script.
-4. The script will generate a plot comparing the BER performance of coded and uncoded BPSK over a range of SNR values.
 
-## Parameters
-- **SNR Range**: 0 dB to 12 dB with a step of 0.5 dB.
-- **Message Length (k)**: Calculated based on the Hamming code parameters.
-- **Codeword Length (n)**: Calculated based on the Hamming code parameters.
-- **Number of Data Bits per Frame**: 1000 times the message length.
-- **Maximum Frames**: 100,000.
-
-## Plot Description
-The plot displays the BER performance of both coded and uncoded BPSK modulation schemes. The x-axis represents the SNR in dB, and the y-axis represents the BER. The red line corresponds to the coded scenario, and the green line corresponds to the uncoded scenario.
-
-## Contributing
-Contributions are welcome! Feel free to modify or extend the script to explore different scenarios or parameters.
-
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-repo/BPSK-Hamming-Code.git
