@@ -65,14 +65,14 @@ for ii = 1:length(SNR)
         
         % Demodulation
         bb2 = r2 > 0;
-        decData = decode(bb2, n, k, 'hamming/binary')'; % Decoding
+        decData = decode(bb2, n, k, 'hamming/binary'); % Decoding
         
         num2 = num2 + biterr(decData, data);
         pp = pp + 1;
     end
     
-    ber1(ii) = num1 / pp / Len; % Coded BER
-    ber2(ii) = num2 / jj / Len; % Uncoded BER
+    ber1(ii) = num1 / jj / Len; % Coded BER
+    ber2(ii) = num2 / pp / Len; % Uncoded BER
 end
 
 % Plot Results
