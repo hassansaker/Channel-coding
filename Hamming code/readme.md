@@ -37,4 +37,4 @@ The BER performance is plotted against SNR for all scenarios, allowing for a com
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-repo/BPSK-Hamming-Code.git
+   git clone https://github.com/hassansaker/Channel-coding.git
