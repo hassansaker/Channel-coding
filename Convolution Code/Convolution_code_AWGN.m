@@ -1,15 +1,15 @@
 clear; clc;
 
 % Simulation Parameters
-constraintLength = 7;          % Constraint length
-codeGenerator = [133 171];     % Octal generator polynomials 
-tracebackDepth = 32;           % Viterbi traceback depth 
-modOrder = 64;                 % 64-QAM modulation
-numBits = 1000*log2(modOrder); % Number of input bits
-SNR = 0:0.5:20;                % Signal-to-noise ratio range (dB)
-EbN0 = SNR + 10*log10(2);      % Convert SNR to Eb/N0 for BPSK
-L_SNR = length(SNR);           % Number of SNR points
-maxF = 1e3;                    % Maximum number of frames
+constraintLength = 7;            % Constraint length
+codeGenerator = [133 171];       % Octal generator polynomials 
+tracebackDepth = 32;             % Viterbi traceback depth 
+modOrder = 64;                   % 64-QAM modulation
+numBits = 1000*log2(modOrder);   % Number of input bits
+SNR = 0:0.5:20;                  % Signal-to-noise ratio range (dB)
+EbN0 = SNR + 10*log10(modOrder); % Convert SNR to Eb/N0 for BPSK
+L_SNR = length(SNR);             % Number of SNR points
+maxF = 1e3;                      % Maximum number of frames
 
 ber1 = zeros(1, L_SNR); % BER for uncoded system
 ber2 = zeros(1, L_SNR); % BER for coded system 
