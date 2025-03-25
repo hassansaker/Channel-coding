@@ -16,9 +16,9 @@ Len = k * 1000; % Number of data bits per frame
 ber1 = zeros(1, L_SNR); % BER for uncoded system
 ber2 = zeros(1, L_SNR); % BER for coded system without interleaving
 
+while (jj < maxF && num1 < 1000) 
 
-% Generate random binary data (column vector)
-inputBits = randi([0 1], numBits, 1);
+inputBits = randi([0 1], numBits, 1); % Generate random binary data (column vector)
 
 % Convolutional Encoding (adds termination tail automatically)
 trellis = poly2trellis(constraintLength, codeGenerator);
@@ -38,7 +38,8 @@ decodedBits = vitdec(rxDataHard, trellis, tracebackDepth, 'cont', 'hard');
 
 % Calculate Bit Errors (skip last 'tbl' bits due to decoding delay)
 numErrors = biterr(inputBits(1:end-tracebackDepth), decodedBits(tracebackDepth+1:end));
-ber = numErrors / (numBits - tracebackDepth);
+ber = numErrors / jj;
+end
 
 % Display Results
 fprintf('Bit Error Rate (BER): %.4f\n', ber);
