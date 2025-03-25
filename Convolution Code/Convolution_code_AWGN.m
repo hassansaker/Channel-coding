@@ -16,29 +16,39 @@ ber2 = zeros(1, L_SNR); % BER for coded system
 
 while (jj < maxF && num1 < 1000) 
 
-inputBits = randi([0 1], numBits, 1); % Generate random binary data 
+    %-----------------Transmitter---------------------
+    inputBits = randi([0 1], numBits, 1); % Generate random binary data 
 
-% Convolutional Encoding 
-trellis = poly2trellis(constraintLength, codeGenerator);
-encodedBits = convenc(inputBits, trellis);
+    % Convolutional Encoding 
+    trellis = poly2trellis(constraintLength, codeGenerator);
+    encodedBits = convenc(inputBits, trellis);
 
-% 64-QAM Modulation (with bit input & unit average power)
-txSig = qammod(encodedBits, modOrder, 'InputType', 'bit', 'UnitAveragePower', true);
+    % 64-QAM Modulation (with bit input & unit average power)
+    txSig = qammod(encodedBits, modOrder, 'InputType', 'bit', 'UnitAveragePower', true);
+    
+    %----------------Channel--------------------------
+    % Add AWGN noise
+    rxSig = awgn(txSig, EbN0+10*log10(1/2), 'measured');
 
-% Add AWGN noise
-rxSig = awgn(txSig, EbN0+10*log10(1/2), 'measured');
+    %-----------------Receiver------------------------
+    % Hard-Decision QAM Demodulation (output as bits)
+    rxDataHard = qamdemod(rxSig, modOrder, 'OutputType', 'bit', 'UnitAveragePower', true);
 
-% Hard-Decision QAM Demodulation (output as bits)
-rxDataHard = qamdemod(rxSig, modOrder, 'OutputType', 'bit', 'UnitAveragePower', true);
+    % Viterbi Decoding (continuous mode, hard-decision)
+    decodedBits = vitdec(rxDataHard, trellis, tracebackDepth, 'cont', 'hard');
 
-% Viterbi Decoding (continuous mode, hard-decision)
-decodedBits = vitdec(rxDataHard, trellis, tracebackDepth, 'cont', 'hard');
-
-% Calculate Bit Errors (skip last 'tbl' bits due to decoding delay)
-numErrors = biterr(inputBits(1:end-tracebackDepth), decodedBits(tracebackDepth+1:end));
-ber = numErrors / jj;
+    % Calculate Bit Errors (skip last 'tbl' bits due to decoding delay)
+    numErrors = biterr(inputBits(1:end-tracebackDepth), decodedBits(tracebackDepth+1:end));
+    ber = numErrors / jj;
 end
 
-% Display Results
-fprintf('Bit Error Rate (BER): %.4f\n', ber);
-fprintf('Number of Errors: %d\n', numErrors);
+% Plot Results
+figure;
+semilogy(SNR, ber1, 'r-*', 'LineWidth', 1.5, 'MarkerSize', 8); % Uncoded
+hold on;
+semilogy(SNR, ber2, 'g-h', 'LineWidth', 1.5, 'MarkerSize', 8); % Coded 
+grid on;
+xlabel('Eb/N0 (dB)');
+ylabel('BER');
+title('BER Performance: Coded vs Uncoded BPSK in Rayleigh Fading Channel');
+legend('Uncoded', 'Coded without Interleaving', 'Coded with Interleaving');
