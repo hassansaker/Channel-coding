@@ -1,10 +1,9 @@
 clear; clc;
 
 % Simulation Parameters
-constraintLength = 7;          % Constraint length (K=7)
-codeGenerator = [133 171];     % Octal generator polynomials (G1=133, G2=171)
-tracebackDepth = 7;            % Viterbi traceback depth (5*(K-1) is typical)
-snrdB = 15;                    % SNR in dB (adjust for testing)
+constraintLength = 7;          % Constraint length
+codeGenerator = [133 171];     % Octal generator polynomials 
+tracebackDepth = 32;           % Viterbi traceback depth 
 modOrder = 64;                 % 64-QAM modulation
 numBits = 1000*log2(modOrder); % Number of input bits
 SNR = 0:0.5:20;                % Signal-to-noise ratio range (dB)
@@ -12,15 +11,14 @@ EbN0 = SNR + 10*log10(2);      % Convert SNR to Eb/N0 for BPSK
 L_SNR = length(SNR);           % Number of SNR points
 maxF = 1e3;                    % Maximum number of frames
 
-Len = k * 1000; % Number of data bits per frame
 ber1 = zeros(1, L_SNR); % BER for uncoded system
-ber2 = zeros(1, L_SNR); % BER for coded system without interleaving
+ber2 = zeros(1, L_SNR); % BER for coded system 
 
 while (jj < maxF && num1 < 1000) 
 
-inputBits = randi([0 1], numBits, 1); % Generate random binary data (column vector)
+inputBits = randi([0 1], numBits, 1); % Generate random binary data 
 
-% Convolutional Encoding (adds termination tail automatically)
+% Convolutional Encoding 
 trellis = poly2trellis(constraintLength, codeGenerator);
 encodedBits = convenc(inputBits, trellis);
 
@@ -28,7 +26,7 @@ encodedBits = convenc(inputBits, trellis);
 txSig = qammod(encodedBits, modOrder, 'InputType', 'bit', 'UnitAveragePower', true);
 
 % Add AWGN noise
-rxSig = awgn(txSig, snrdB, 'measured');
+rxSig = awgn(txSig, EbN0+10*log10(1/2), 'measured');
 
 % Hard-Decision QAM Demodulation (output as bits)
 rxDataHard = qamdemod(rxSig, modOrder, 'OutputType', 'bit', 'UnitAveragePower', true);
