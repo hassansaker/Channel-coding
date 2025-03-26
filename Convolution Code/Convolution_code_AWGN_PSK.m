@@ -4,14 +4,16 @@ clear; clc;
 constraintLength = 3;                  % Constraint length
 codeGenerator = [7 5];                 % Octal generator polynomials 
 tracebackDepth = 16;                   % Viterbi traceback depth 
-M = 4;                                 % BPSK modulation
+M = 4;                                 % PSK modulation
 numBits =1000*M;                       % Number of input bits
 EbN0 = 0:0.5:10;                       % Signal-to-noise ratio range (dB)
-SNR= EbN0 + 10*log10(log2(M));         % Convert SNR to Eb/N0 for BPSK
+SNR= EbN0 + 10*log10(log2(M));         % Convert SNR to Eb/N0 for PSK
 L_SNR = length(SNR);                   % Number of SNR points
 maxF =1e4;                             % Maximum number of frames
-pskModulator = comm.PSKModulator(M,'BitInput',true,'SymbolMapping','Gray','PhaseOffset',0);
-pskDemodulator = comm.PSKDemodulator(M,'BitOutput',true,'SymbolMapping','Gray','PhaseOffset',0);
+pskModulator = comm.PSKModulator(M,'BitInput',true,'SymbolMapping','Gray',...
+'PhaseOffset',0);
+pskDemodulator = comm.PSKDemodulator(M,'BitOutput',true,'SymbolMapping','Gray',...
+'PhaseOffset',0);
 ber1 = zeros(1, L_SNR); % BER for uncoded system
 ber2 =zeros(1, L_SNR); % BER for coded system 
 
