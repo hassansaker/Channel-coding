@@ -75,6 +75,8 @@ awgnChannel.SNR = SNR(i)+10*log10(rate);
 
 end
 
+ber1=berfit(EbNo,ber1);
+ber2=berfit(EbNo,ber2);
 figure;
 semilogy(EbNo, ber1, 'r-*', 'LineWidth', 1.5, 'MarkerSize', 8); % Uncoded
 hold on;
