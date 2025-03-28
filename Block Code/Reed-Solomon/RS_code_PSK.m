@@ -53,7 +53,7 @@ awgnChannel.SNR = SNR(i)+10*log10(rate);
     inputBits = randi([0 1], numBits, 1); % Generate random binary data 
     % RS encode
     encData = rsEncoder(inputBits);                 
-    % 4PSK Modulation 
+    % M-PSK Modulation 
     txSig_coded = pskModulator(encData);
 
     %----------------Channel--------------------------
