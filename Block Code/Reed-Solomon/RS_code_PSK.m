@@ -30,7 +30,7 @@ awgnChannel.SNR = SNR(i);
 
     %-----------------Transmitter---------------------
     inputBits = randi([0 1], numBits, 1); % Generate random binary data
-    % 4PSK Modulation 
+    % M-PSK Modulation 
     txSig_uncoded = pskModulator(inputBits);
     
     %----------------Channel--------------------------
@@ -38,7 +38,7 @@ awgnChannel.SNR = SNR(i);
     rxSig_uncoded = awgnChannel(txSig_uncoded);              
     
     %-----------------Receiver------------------------
-    % 4PSK Demodulation 
+    % M-PSK Demodulation 
     rxData = pskDemodulator(rxSig_uncoded);            
     % Calculate Bit Errors 
     err_num = errorRate(inputBits, rxData);
