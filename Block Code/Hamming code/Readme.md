@@ -38,3 +38,7 @@ The BER performance is plotted against SNR for all scenarios, allowing for a com
 1. Clone the repository:
    ```bash
    git clone https://github.com/hassansaker/Channel-coding.git
+2. Open MATLAB and navigate to the directory containing the scripts.
+3. Run either script:
+   ```matlab
+   run('BPSK_Rayleigh.m')
