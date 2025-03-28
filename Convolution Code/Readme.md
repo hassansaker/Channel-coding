@@ -25,8 +25,9 @@ Both scripts use **Viterbi decoding** for error correction.
 ## 🛠 Installation & Usage
 
 1. Clone this repository or download the files.
+   ```bash
+   git clone https://github.com/hassansaker/Channel-coding.git
 2. Open MATLAB and navigate to the directory containing the scripts.
 3. Run either script:
-
    ```matlab
    run('Convolution_code_AWGN_PSK.m')
