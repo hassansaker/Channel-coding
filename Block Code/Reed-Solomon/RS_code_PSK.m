@@ -61,10 +61,11 @@ awgnChannel.SNR = SNR(i)+10*log10(rate);
     rxSig = awgnChannel(txSig_coded); 
     
     %-----------------Receiver------------------------
-    % Demodulate
+    % M-PSK Demodulation 
     rxData = pskDemodulator(rxSig);            
     % RS decode
-    decData = rsDecoder(rxData);            
+    decData = rsDecoder(rxData);
+    % Calculate Bit Errors             
     err_num = errorRate(inputBits, decData);
     numErrors_coded =numErrors_coded+err_num(2);
     jj=jj+1;
